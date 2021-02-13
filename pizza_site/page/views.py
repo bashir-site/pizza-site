@@ -11,3 +11,19 @@ class PizzaView(View):
 class AboutUs(View):
     def get(self, request):
         return render(request, 'pizza/02_about_us.html')
+
+class Menu(View):
+    def get(self, request):
+        return render(request, 'pizza/03_menu.html')
+
+class Blog(View):
+    def get(self, request):
+        return render(request, 'pizza/04_blog.html')
+
+class Contact(View):
+    def get(self, request):
+        return render(request, 'pizza/05_contact.html')
+
+class Element(View):
+    def get(self, request):
+        return render(request, 'pizza/06_elements.html')
