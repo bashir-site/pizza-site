@@ -1,0 +1,85 @@
+{% load static %}
+<head>
+        <title>Luigi's</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+
+        <!-- Font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'fonts/beyond_the_mountains-webfont.css' %}" type="text/css"/>
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.2.4/css/simple-line-icons.min.css'>
+        <link href="{% static 'plugin-frameworks/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'plugin-frameworks/swiper.css' %}" rel="stylesheet">
+        <link href="{% static 'fonts/ionicons.css' %}" rel="stylesheet">
+        <link href="{% static 'common/style.css' %}" rel="stylesheet">
+
+        <script type="text/javascript">
+          function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                      var cookie = cookies[i].trim();
+                      // Does this cookie string begin with the name we want?
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+
+          function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+              var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+              return v.toString(16);
+            });
+          }
+
+          let device = getCookie('device')
+
+          if (device == null || device == undefined){
+            device = uuidv4()
+          }
+
+          document.cookie ='device=' + device + ";domain=;path=/"
+        </script>
+</head>
+<header>
+        <div class="container">
+                <a class="logo" href="{% url 'index' %}"><img src="{% static 'images/logo-white.png' %}" alt="Logo"></a>
+
+                <a class="menu-nav-icon" data-menu="#main-menu" href="#"><i class="ion-navicon"></i></a>
+
+                <div class="right-area">
+                     <ul>
+                        <li>
+                            <a class="plr-20 color-white btn-fill-primary" href="#">+34 685 778 8892</a>
+                        </li>
+                     </ul>
+                     <div class='mini'>
+                        <p class='products'>Empty</p>
+                        <p class='names'></p>
+                        <p class='miniprice'><p>
+                        <p class='button -salmon center' href="{% url 'cart' %}"></p>
+                      </div>
+                      <div class='cart icon-basket'>
+                        <span class='number'></span>
+                     </div>
+                </div><!-- right-area -->
+
+                <ul class="main-menu font-mountainsre" id="main-menu">
+                        <li><a href="{% url 'index' %}">HOME</a></li>
+                        <li><a href="{% url '02_about_us' %}">ABOUT US</a></li>
+                        <li><a href="{% url '03_menu' %}">SERVICES</a></li>
+                        <li><a href="{% url '04_blog' %}">NEWS</a></li>
+                        <li><a href="{% url '05_contact' %}">CONTACT</a></li>
+                </ul>
+                
+        </div><!-- container -->
+</header>

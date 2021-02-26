@@ -1,3 +1,130 @@
+var updateBtns = document.getElementsByClassName('update-cart')
+
+for (i = 0; i < updateBtns.length; i++) {
+	updateBtns[i].addEventListener('click', function(){
+		var pizzaId = this.dataset.pizza
+		var action = this.dataset.action
+		console.log('pizzaId:', pizzaId, 'Action:', action)
+		console.log('USER:', user)
+
+		if (user == 'AnonymousUser'){
+			addCookieItem(pizzaId, action)
+		}else{
+			updateUserOrder(pizzaId, action)
+		}
+	})
+}
+
+function updateUserOrder(pizzaId, action){
+	console.log('User is authenticated, sending data...')
+
+		var url = '/update_item/'
+
+		fetch(url, {
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken':csrftoken,
+			}, 
+			body:JSON.stringify({'pizzaId':pizzaId, 'action':action})
+		})
+		.then((response) => {
+		   return response.json();
+		})
+		.then((data) => {
+		    location.reload()
+		});
+}
+
+function addCookieItem(pizzaId, action){
+	console.log('User is not authenticated')
+
+	if (action == 'add'){
+		if (cart[pizzaId] == undefined){
+		cart[pizzaId] = {'quantity':1}
+
+		}else{
+			cart[pizzaId]['quantity'] += 1
+		}
+	}
+
+	if (action == 'remove'){
+		cart[pizzaId]['quantity'] -= 1
+
+		if (cart[pizzaId]['quantity'] <= 0){
+			console.log('Item should be deleted')
+			delete cart[pizzaId];
+		}
+	}
+	console.log('CART:', cart)
+	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+	
+	location.reload()
+}
+
+///BACKET///
+
+var cartCount = 0,
+buy = $('.secondcard__add'),
+span = $('.number'),
+cart = $('.cart'),
+minicart = [],
+totalPrice = [],
+miniCartPrice;
+
+buy.on('click', addToCart)
+cart.on('click', showMiniCart);
+
+function showMiniCart() {
+  $('.mini').toggleClass('visible');
+  $('.button').toggleClass('visible');
+  $('.-salmon').toggleClass('visible');
+}
+
+function addToCart() {
+  var self = $(this),
+  productName = $(this).parent().find('.titlecard').text(),
+  miniCartNames = $('.products'),
+  names = $('.names'),
+  buttons = $('.button'),
+  price = $(this).parent().find('.secondcard__price').text().replace("$",""),
+  priceFloat = parseFloat(price);
+
+  totalPrice.push(priceFloat);
+  miniCartPrice = totalPrice.reduce(function (a, b) {return a + b;});
+  $('.miniprice').text('Total amount: ' + Math.round(miniCartPrice) + "$");
+  minicart.push(productName);
+  buttons.text('Cart')
+  lastProduct = minicart[minicart.length - 1];
+  miniCartNames.text('Your cart lines: ');
+  names.append('<p>' + lastProduct + '</p>');
+
+  cartCount++;
+  span.text(cartCount);
+  clearTimeout(time);
+  if (span.hasClass('update')) {
+    span.removeClass('update');
+    span.addClass('updateQuantity');
+    var time = setTimeout(function () {
+      span.removeClass('updateQuantity');
+      span.addClass('update');
+    }, 700);
+  } else {
+    span.addClass('update');
+  }
+  if (cartCount == 1) {
+    cart.toggleClass('icon-basket icon-basket-loaded');
+  }
+
+  $(this).addClass('ok');
+  var timeOk = setTimeout(function () {
+    self.removeClass('ok');
+  }, 1000);
+}
+
+/////////////////
+
+
 function selectedActive(elem) {
         var selectedAttr = $(elem),
                 selectionID = "." + $(selectedAttr).data("select");
