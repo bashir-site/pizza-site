@@ -1,0 +1,29 @@
+{% extends 'store/main1.html' %}
+{% load static %}
+</script>
+{% block content %}
+<body translate="no" >
+  <section class="section">
+  <div class="container">
+    <div class="grid">
+    {% for product in products %}
+      <article class="card">
+        <img class="card__image" src="{{ product.imageURL }}" />
+        <div class="card__data">
+          <div class="card__info">
+            <h2>{{product.name}}</h2>
+            <p>Descripcion de la comida, con ingredientes</p>
+          </div>
+          <h3 class="card__price">${{product.price}}</h3>
+          <button data-product="{{product.id}}" data-action="add" class="card__add add-btn update-cart">+</button>
+        </div>
+      </article>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+<style>
+</style>
+{% endblock content %}
+ 
+
